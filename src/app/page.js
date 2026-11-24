@@ -1,69 +1,108 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import Link from "next/link";
+import { motion } from "motion/react";
+import { ShieldCheck, Lock, Ticket, ArrowRight } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
+import SearchBar from "@/components/SearchBar";
+
+export default function HomePage() {
+  const { t } = useLanguage();
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.js
-            </code>{" "}
-            file.
+    <div className="bg-slate-950 text-white min-h-[calc(100vh-4rem)]">
+      {/* Hero & Public Ticket Search */}
+      <section className="max-w-6xl mx-auto px-4 pt-12 pb-16 sm:pt-16 sm:pb-24 space-y-8">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35 }}
+          className="max-w-3xl space-y-4"
+        >
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
+            <ShieldCheck className="w-4 h-4" />
+            <span>
+              {t(
+                "এনআইডি যাচাইকৃত বিক্রেতা ও নিরাপদ এসক্রো সুরক্ষা",
+                "NID-Verified Sellers & Escrow Protection"
+              )}
+            </span>
+          </div>
+
+          <h1 className="text-3xl sm:text-5xl font-bold tracking-tight leading-tight">
+            {t(
+              "অব্যবহৃত ট্রেনের টিকিট কিনুন ও বিক্রি করুন সম্পূর্ণ নিরাপদে",
+              "Exchange Unused Train Tickets Safely with Escrow Trust"
+            )}
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+
+          <p className="text-sm sm:text-base text-slate-300 max-w-2xl">
+            {t(
+              "রুট ও যাত্রার তারিখ দিয়ে টিকিট খুঁজুন। এসক্রো পেমেন্ট সম্পন্ন না হওয়া পর্যন্ত সিট নম্বর ও PNR গোপন থাকে।",
+              "Search available Bangladesh Railway intercity tickets by route and date. Seat numbers and PNR codes remain masked until escrow payment clears."
+            )}
           </p>
+        </motion.div>
+
+        {/* Search Bar */}
+        <div className="text-slate-900">
+          <SearchBar />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Trust Highlights & Quick Links */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+          <div className="p-4 rounded-2xl bg-zinc-900/90 border border-zinc-800 flex items-start gap-3">
+            <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+            <div>
+              <h2 className="text-sm font-semibold text-white">
+                {t("✓ NID Verified Seller", "✓ NID Verified Seller")}
+              </h2>
+              <p className="text-xs text-slate-400 mt-0.5">
+                {t(
+                  "প্রতিটি বিক্রেতার জাতীয় পরিচয়পত্র অ্যাডমিন কর্তৃক যাচাইকৃত।",
+                  "Every seller completes admin-reviewed NID verification before listing."
+                )}
+              </p>
+            </div>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-zinc-900/90 border border-zinc-800 flex items-start gap-3">
+            <Lock className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+            <div>
+              <h2 className="text-sm font-semibold text-white">
+                {t("Seat: [HIDDEN] সুরক্ষা", "Seat: [HIDDEN] Privacy")}
+              </h2>
+              <p className="text-xs text-slate-400 mt-0.5">
+                {t(
+                  "কপি বা ডুপ্লিকেট রোধে সিট ও PNR পেমেন্টের আগে প্রকাশ করা হয় না।",
+                  "Seat numbers and PNRs stay hidden publicly to prevent duplicate claims."
+                )}
+              </p>
+            </div>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-zinc-900/90 border border-zinc-800 flex items-center justify-between gap-3">
+            <div className="flex items-start gap-3">
+              <Ticket className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+              <div>
+                <h2 className="text-sm font-semibold text-white">
+                  {t("সব টিকিট দেখুন", "Browse Marketplace")}
+                </h2>
+                <p className="text-xs text-slate-400 mt-0.5">
+                  {t("অনুমোদিত সব টিকিটের তালিকা", "View all live approved listings")}
+                </p>
+              </div>
+            </div>
+            <Link
+              href="/tickets"
+              className="min-h-[44px] px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold inline-flex items-center gap-1 shrink-0"
+            >
+              <span>{t("যান", "Go")}</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
         </div>
-      </main>
+      </section>
     </div>
   );
 }
