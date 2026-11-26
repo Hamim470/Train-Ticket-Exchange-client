@@ -23,8 +23,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="bn" className={`${hindSiliguri.variable} ${inter.variable}`}>
-      <body className="min-h-screen bg-slate-50 text-slate-900 antialiased font-sans">
+    <html lang="bn" className={`${hindSiliguri.variable} ${inter.variable}`} suppressHydrationWarning>
+      <body className="min-h-screen bg-slate-50 text-slate-900 antialiased font-sans" suppressHydrationWarning>
         <LanguageProvider>
           <Navbar />
           <main>{children}</main>

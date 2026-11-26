@@ -35,7 +35,8 @@ function formatCountdown(remainingMs) {
   return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
 }
 
-function CheckoutContent({ ticketId }) {
+function CheckoutContent({ params }) {
+  const { ticketId } = use(params);
   const router = useRouter();
   const searchParams = useSearchParams();
   const { data: session, isPending } = useSession();
@@ -515,8 +516,6 @@ function CheckoutContent({ ticketId }) {
 }
 
 export default function CheckoutPage({ params }) {
-  const { ticketId } = use(params);
-
   return (
     <Suspense
       fallback={
@@ -525,7 +524,7 @@ export default function CheckoutPage({ params }) {
         </div>
       }
     >
-      <CheckoutContent ticketId={ticketId} />
+      <CheckoutContent params={params} />
     </Suspense>
   );
 }
