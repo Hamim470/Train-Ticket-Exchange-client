@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, use } from "react";
+import { useState, useEffect, Suspense, use } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -19,7 +19,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { getPublicTickets } from "@/lib/api/tickets";
 import { lockTicketListing } from "@/lib/actions/tickets";
 
-export default function TicketDetailPage({ params }) {
+function TicketDetailContent({ params }) {
   const { ticketId } = use(params);
   const router = useRouter();
   const { data: session, isPending } = useSession();
@@ -95,7 +95,9 @@ export default function TicketDetailPage({ params }) {
 
       const targetMs =
         res.data?.lockedUntilMs ||
-        (res.data?.lockedUntil ? new Date(res.data.lockedUntil).getTime() : Date.now() + 10 * 60 * 1000);
+        (res.data?.lockedUntil
+          ? new Date(res.data.lockedUntil).getTime()
+          : Date.now() + 10 * 60 * 1000);
 
       router.push(`/checkout/${ticketId}?expiresAt=${targetMs}`);
     } catch (err) {
@@ -239,5 +241,19 @@ export default function TicketDetailPage({ params }) {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function TicketDetailPage({ params }) {
+  return (
+    <Suspense
+      fallback={
+        <div className="max-w-3xl mx-auto px-4 py-14 flex items-center justify-center">
+          <Loader2 className="w-7 h-7 animate-spin text-emerald-600" />
+        </div>
+      }
+    >
+      <TicketDetailContent params={params} />
+    </Suspense>
   );
 }
