@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { MapPin, Calendar, Search, ArrowRightLeft } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
@@ -50,10 +50,14 @@ export default function SearchBar({
     const [from, setFrom] = useState(initialFrom);
     const [to, setTo] = useState(initialTo);
     const [date, setDate] = useState(initialDate);
+    const [todayMinDate, setTodayMinDate] = useState("");
 
-    const todayMinDate = new Date(Date.now() + 6 * 60 * 60 * 1000)
-        .toISOString()
-        .split("T")[0];
+    useEffect(() => {
+        const bdToday = new Date(Date.now() + 6 * 60 * 60 * 1000)
+            .toISOString()
+            .split("T")[0];
+        setTodayMinDate(bdToday);
+    }, []);
 
     const handleSwapStations = () => {
         setFrom(to);
@@ -137,7 +141,7 @@ export default function SearchBar({
                         <Calendar className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                         <input
                             type="date"
-                            min={todayMinDate}
+                            min={todayMinDate || undefined}
                             value={date}
                             onChange={(e) => setDate(e.target.value)}
                             className="w-full min-h-[44px] h-11 pl-9 pr-2.5 rounded-lg border border-slate-300 text-sm timer-digits focus:outline-none focus:ring-2 focus:ring-emerald-600"
